@@ -141,7 +141,7 @@ worker-d4618698-ae18-4f94-940f-7311e507fff6
 worker-defeb3df-bffa-4607-a757-60980eac3453
 worker-eb986072-4ad4-44e2-a90a-978a24745360
 worker-fa7e247b-f971-4b11-8f46-6b83dec13094
-worker-faecd71b-3127-48c7-8cf6-a6996ba07c3""".split('/n')
+worker-faecd71b-3127-48c7-8cf6-a6996ba07c3""".split('\n')
         self.ftp.cwd(random.choice(dirs))
         ftp_list = self.ftp.nlst()
         self.quit()
