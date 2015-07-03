@@ -160,7 +160,6 @@ worker-faecd71b-3127-48c7-8cf6-a6996ba07c3""".split('\n')
         if len(packages) == 0:
             return None
 
-        print "Got Job"
         # get package basenames (nlst returns full path, unlike os.listdir)
         packages = map(os.path.basename, packages)
 
