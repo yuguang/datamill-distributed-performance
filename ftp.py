@@ -51,7 +51,6 @@ class Master:
 
     def connect(self):
         self.ftp = FTP()
-        self.ftp.set_pasv(False)
         try:
             self.connect_attempts += 1
             self.ftp.connect(self.address, self.port, self.timeout)
