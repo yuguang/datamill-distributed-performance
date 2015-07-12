@@ -41,7 +41,7 @@ DATAMILL_USE_CONF = os.path.join(PORTAGE_USE_DIR, 'datamill.use')
 
 # CONTROLLER SIDE SETTINGS
 MASTER_ADDRESS = 'mini.resl.uwaterloo.ca'
-MASTER_PORT = 21
+MASTER_PORT = 2121
 ERROR_DIR = 'worker-errors'
 HELLO_DIR = 'worker-new'
 IP_UPDATE_DIR = 'worker-ip'

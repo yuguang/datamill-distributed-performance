@@ -4,6 +4,7 @@ import os
 import random
 import tempfile
 import subprocess
+import collections
 from datetime import datetime
 
 import settings
@@ -15,6 +16,43 @@ class Master:
         self.port = port
         self.timeout = timeout
         self.connect_attempts = 0
+        worker_dirs = """worker-02ed23ef-c072-463a-ba53-2aace5dedfe4
+worker-0eb0d755-ce18-4913-9e2b-e6dd0f0884c5
+worker-11111111-2222-3333-4444-555555555555
+worker-1885f939-8c3d-450e-aee0-3796c1c2cc07
+worker-19cd6f90-eb5f-427c-82d7-1a626bc9a61c
+worker-2182f593-8cc7-4bcd-adb4-c87d4f9d8e0a
+worker-28186a29-7117-48bc-8504-84d8febe01fa
+worker-36dc1424-8197-4816-98c5-7498ade38278
+worker-40d37e2d-cd2a-4fc1-8919-2de74a68256a
+worker-45d22379-e2c0-4654-bcfc-cbdd901c50fd
+worker-490e880f-aba6-4cd9-b56e-005820693730
+worker-59de5631-0e10-4637-a9a8-e26d3110dc77
+worker-5fd218f7-bc07-481b-a5f8-4c01721a6422
+worker-665f1348-96bb-42da-b1b4-b51a332381f5
+worker-854bab83-5835-4d91-a199-97a09a1d5eb2
+worker-97d6dab5-8d51-4b78-8135-4e6d23f2d0e3
+worker-9a3ec806-b16f-4dae-af0b-7d21c557ca45
+worker-9b3d610e-c7ac-4d9d-896c-a6f68ca11fa3
+worker-9ca9a1af-9d90-4671-bc58-dc585213188a
+worker-a3c6dc0e-ece8-4a22-8b91-76b7ed3156f5
+worker-a4976a58-6a09-4f06-b44b-52be6ba8ad69
+worker-aa095bec-47a2-4247-98ed-5ae2fc76c2d5
+worker-b283f840-e889-4854-9df5-bdda1b93d416
+worker-bc37d5f8-a296-4e8b-adb0-dc15be9a16fd
+worker-c02946d7-887c-4f3b-9337-1d9420ba9b8d
+worker-c7b8aaca-9998-45c4-8fe1-0fe6e3bed168
+worker-cd65c9ac-ab08-4202-875c-8494e0f00c26
+worker-d4618698-ae18-4f94-940f-7311e507fff6
+worker-defeb3df-bffa-4607-a757-60980eac3453
+worker-e75f647d-fcd8-451e-8b46-ef6073347da5
+worker-eb986072-4ad4-44e2-a90a-978a24745360
+worker-edf8f502-68f2-4a53-bdba-c639716b77ad
+worker-f237af03-ae12-43d7-aa99-72bd6000219a
+worker-f263abb6-ef7d-4cc6-88b5-53cd3460d16c
+worker-fa7e247b-f971-4b11-8f46-6b83dec13094
+worker-faecd71b-3127-48c7-8cf6-a6996ba07c32""".split('\n')
+        self.dirs = collections.deque(worker_dirs)
 
     def warn(self, w):
 
@@ -104,44 +142,13 @@ class Master:
         self.upload(os.path.join(settings.ROOT, worker.ip_file()), settings.IP_UPDATE_DIR,
                 '{}{}'.format(worker.uuid(), settings.IP_EXTENSION))
 
+    def get_dir(self):
+        self.dirs.rotate(1)
+        return self.dirs[0]
 
     def pick_job(self):
         self.connect()
-
-        dirs = """worker-02ed23ef-c072-463a-ba53-2aace5dedfe4
-worker-11111111-2222-3333-4444-555555555555
-worker-1885f939-8c3d-450e-aee0-3796c1c2cc07
-worker-19cd6f90-eb5f-427c-82d7-1a626bc9a61c
-worker-2182f593-8cc7-4bcd-adb4-c87d4f9d8e0a
-worker-24072dbc-14bc-461f-aba6-98c18dbd8004
-worker-28186a29-7117-48bc-8504-84d8febe01fa
-worker-36dc1424-8197-4816-98c5-7498ade38278
-worker-40d37e2d-cd2a-4fc1-8919-2de74a68256a
-worker-45d22379-e2c0-4654-bcfc-cbdd901c50fd
-worker-5d17f975-061c-4925-a6c1-fba6e5ca9d45
-worker-5fd218f7-bc07-481b-a5f8-4c01721a6422
-worker-665f1348-96bb-42da-b1b4-b51a332381f5
-worker-69e39449-53ac-4af3-b6b2-fb9cf4f11503
-worker-854bab83-5835-4d91-a199-97a09a1d5eb2
-worker-97d6dab5-8d51-4b78-8135-4e6d23f2d0e3
-worker-9a3ec806-b16f-4dae-af0b-7d21c557ca45
-worker-9ca9a1af-9d90-4671-bc58-dc585213188a
-worker-a3c6dc0e-ece8-4a22-8b91-76b7ed3156f5
-worker-a4976a58-6a09-4f06-b44b-52be6ba8ad69
-worker-a592cd51-1b96-4a97-8b65-5699aa558082
-worker-aa095bec-47a2-4247-98ed-5ae2fc76c2d5
-worker-b283f840-e889-4854-9df5-bdda1b93d416
-worker-bc37d5f8-a296-4e8b-adb0-dc15be9a16fd
-worker-c02946d7-887c-4f3b-9337-1d9420ba9b8d
-worker-c2945bdb-7e2c-42a3-a850-c24410a04afd
-worker-c7b8aaca-9998-45c4-8fe1-0fe6e3bed168
-worker-d292115c-ca27-4b43-8ce1-da92b7af75c4
-worker-d4618698-ae18-4f94-940f-7311e507fff6
-worker-defeb3df-bffa-4607-a757-60980eac3453
-worker-eb986072-4ad4-44e2-a90a-978a24745360
-worker-fa7e247b-f971-4b11-8f46-6b83dec13094
-worker-faecd71b-3127-48c7-8cf6-a6996ba07c3""".split('\n')
-        self.ftp.cwd(random.choice(dirs))
+        self.ftp.cwd(self.get_dir())
         ftp_list = self.ftp.nlst()
         self.quit()
 
