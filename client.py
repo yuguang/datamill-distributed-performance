@@ -2,7 +2,7 @@ __author__ = 'yuguang'
 from ftplib import all_errors as FTP_ERRORS
 import ftp, time, settings
 from emerge import Emerge
-import threading, sys
+import threading, sys, csv
 from Queue import Queue
 
 class Worker(threading.Thread):
@@ -59,5 +59,7 @@ if __name__ == '__main__':
         jobs += stats['jobs']
         errors += stats['errors']
         thread.join(1)
-    print "updates: {}, jobs: {}, errors: {}".format(updates, jobs, errors)
+    with open('results.csv', 'a') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow([updates, jobs, errors])
     sys.exit(0)
