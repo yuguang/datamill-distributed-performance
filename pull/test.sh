@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in `seq 11 50`;
+for i in `seq 1 50`;
 do
-        python2 client.py $i 5
+        timeout 60 python2 client.py $i
 done

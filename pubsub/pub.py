@@ -2,15 +2,11 @@ __author__ = 'yuguang'
 
 from common import *
 import sys
+import settings, time
 
 if __name__ == '__main__':
-    channel = sys.argv[1]
 
     while True:
-        message = raw_input('Enter a message: ')
-
-        if message.lower() == 'exit':
-            break
-
-        q = PubSub(channel)
-        q.publish({'a':1})
+        q = PubSub()
+        q.publish({'update':1, 'job': 1})
+        time.sleep(settings.CONTROLLER_LOOP_SLEEP_TIME)
