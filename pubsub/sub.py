@@ -1,10 +1,9 @@
 __author__ = 'yuguang'
 
 from common import *
-import settings, sys, os
-sys.path.append(os.path.dirname(os.path.dirname((__file__))))
-from pull.emerge import Emerge
-import threading, sys, csv
+import settings
+from emerge import Emerge
+import threading, csv
 from Queue import Queue
 
 class Worker(threading.Thread):
