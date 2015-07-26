@@ -1,7 +1,7 @@
 __author__ = 'yuguang'
 
 from common import *
-import settings
+import settings, sys
 from emerge import Emerge
 import threading, csv
 from Queue import Queue
@@ -33,7 +33,7 @@ class Worker(threading.Thread):
         q.subscribe(handler)
 
 if __name__ == '__main__':
-    num_workers = 1
+    num_workers = int(sys.argv[1])
     queue = Queue(num_workers)
     for i in range(num_workers):
         thread = Worker(num_workers)
