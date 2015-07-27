@@ -37,8 +37,7 @@ class Worker(threading.Thread):
                     with open('results.csv', 'a') as csvfile:
                         writer = csv.writer(csvfile)
                         writer.writerow(headers + [0, 1, 0])
-                else:
-                    time.sleep(settings.CONTROLLER_LOOP_SLEEP_TIME)
+                time.sleep(settings.CONTROLLER_LOOP_SLEEP_TIME)
             except Exception:
                 print "An Error occured"
                 self.errors += 1
