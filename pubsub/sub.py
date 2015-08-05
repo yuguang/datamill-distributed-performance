@@ -8,9 +8,6 @@ from Queue import Queue
 
 class Worker(threading.Thread):
     def __init__(self, num_workers):
-        self.updates = 0
-        self.jobs = 0
-        self.errors = 0
         self.num_workers = num_workers
         threading.Thread.__init__(self)
 

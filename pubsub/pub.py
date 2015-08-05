@@ -1,7 +1,4 @@
-__author__ = 'yuguang'
-
 from common import *
-import sys
 import settings, time
 
 if __name__ == '__main__':
